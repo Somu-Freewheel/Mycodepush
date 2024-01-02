@@ -1,0 +1,429 @@
+Button:
+Button.jsx
+
+import styled from "styled-components";
+export const Button =styled.button`
+    text-decoration:none;
+    max-width:auto;
+    background-color: rgb(98 84 243);
+    color:rgb(255 255 255);
+    padding:1.4rem 2.4rem;
+    border:none;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:all 0.3s ease;
+    -webkit-transition:all 0.3s ease 0s;
+    -moz-transition:all 0.3s ease 0s;
+    -o-transition:all 0.3s ease 0s;
+    &:hover,
+    &:active{
+        box-shadow:0 2rem 2rem 0 rgb(122 144 255/30%);
+        box-shadow:${({theme}) => theme.colors.shadowSupport};
+        transform:scale(0.96);
+    }
+    a{
+        text-decoration:none;
+        color:rgb(255 255 255);
+        font-size:1.8rem;
+    }
+`;
+
+
+
+Header:
+Header.jsx:
+
+import React from "react";
+import { NavLink } from "react-router-dom";
+import NavBar from "./NavBar";
+import styled from "styled-components";
+const Header =()=>{
+  return(
+    <MainHeader>
+      <NavLink to="/">
+        <img src="./Somu's.png" alt="logo" className="logo"/>
+      </NavLink>
+      <NavBar/>
+    </MainHeader>
+  );
+};
+const MainHeader=styled.header`
+  padding:0 4.3rem;
+  height:10rem;
+  background-color:${({theme}) => theme.colors.bg};
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  .logo{
+    height:auto;
+    max-width:30%;
+  }
+`;
+export default Header;
+
+
+
+
+
+Navbar:
+
+import React from "react";
+import { NavLink } from "react-router-dom";
+import styled from "styled-components";
+const NavBar=()=>{
+    const Nav =styled.nav`
+    .navbar-list{
+        display:flex;
+        gap:7.0rem;
+
+        li{
+            list-style:none;
+
+            .navbar-link{
+            &:link,
+            &:visited{
+                display:inline-block;
+                text-decoration:none;
+                font-size:1.2rem;
+                text-transform:uppercase;
+                color:${({theme}) => theme.colors.black};
+                transition: color 0.01s linear;
+            }
+            &:hover,
+            &:active{
+                color:${({theme}) => theme.colors.btn};
+            }
+
+        }
+        }    
+    }
+`;
+    return (
+    <Nav>
+        <div className="menu-icon">
+            <ul className="navbar-list">
+                <li>
+                    <NavLink className="navbar-link" to="/">Home</NavLink>
+                </li>
+                <li>
+                    <NavLink className="navbar-link" to="/about">About</NavLink>
+                </li>
+                <li>
+                    <NavLink className="navbar-link" to="/contacts">Contacts</NavLink>
+                </li>
+                <li>
+                    <NavLink className="navbar-link" to="/services">Services</NavLink>
+                </li>
+            </ul>
+        </div>
+    </Nav>
+    );
+    
+};
+export default NavBar;
+
+
+
+
+
+App.jsx:
+
+import React from "react";
+import Home from "./Home";
+import About from "./About";
+import Contacts from "./Contacts";
+import Services from "./Services";
+import Header from "./Components/Header";
+import Footer from "./Components/Footer";
+import {BrowserRouter,Routes,Route} from "react-router-dom";
+import {ThemeProvider} from "styled-components";
+import { GlobalStyle } from "./GlobalStyle";
+const App =()=>{
+  const theme={
+    colors:{
+      heading:"rgb(24 24 29)",
+      text: "rgb(24 24 29)",
+      white:"#fff",
+      black:"#212529",
+      helper:"#8490ff",
+      bg:"rgb(249 249 255)",
+      footer_bg:"#8490ff",
+      btn:"rgb(98 84 243)",
+      border:"rgba(98,84,243,0.5)",
+      hr:"#ffffff",
+      gradient:"linear-gradient(0deg,rgb(132 144 255) 0%, rgb(98 189 252) 100%)",
+      shadow:"rgba(0,0,0,0.02) 0px 1px 3px 0px,rgba(27,31,35,0.15) 0px 0px 0px 1px",
+      shadowSupport:"rgba(0,0,o,0.16) 0px 1px 4px",
+
+    },
+media:{mobile:"786px",tab:"998px"},
+  };
+  return(
+    <ThemeProvider theme={theme}>
+    <GlobalStyle/>
+    <BrowserRouter>
+    <Header/>
+      <Routes>
+        <Route path="/" element ={<Home/>}/>
+        <Route path="/about" element ={<About />}/>
+        <Route path="/services" element ={<Services/>}/>
+        <Route path="/contacts" element ={<Contacts/>}/>
+      </Routes>
+      <Footer/>
+    </BrowserRouter>
+    </ThemeProvider> 
+  );
+};
+export default App;
+
+
+globalstyles:
+import { createGlobalStyle } from "styled-components";
+export const GlobalStyle=createGlobalStyle`
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Work Sans',sans-serif;
+}
+html{
+    font-size:62.5%;
+    overflow-x:hidden;
+}
+h1{
+    color:${({theme})=>theme.colors.heading};
+    font-size:6rem;
+    font-weight:900;
+}
+h2{
+    color:${({theme})=>theme.colors.heading};
+    font-size:4rem;
+    font-weight:300; 
+    white-space:normal;
+    text-align:center;
+}
+h3{
+    font-size:1.8rem;
+    font-weight:400;  
+}
+p{
+    color:${({theme})=>theme.colors.text};
+    opacity: .7;
+    font-size:1.65rem;
+    line-height:1.5;
+    margin-top:1rem;
+    font-weight:400;
+}
+a{
+    text-decoration:none;
+}
+li{
+    list-style:none;
+}
+.container{
+    max-width:120rem;
+    margin:0 auto;
+}
+.grid{
+    display:grid;
+    grid:15rem;
+}
+.grid-two-column{
+    grid-template-columns:repeat(2,1fr);
+}
+.grid-three-column{
+    grid-template-columns:repeat(3, 1fr);
+}
+.grid-four-column{
+    grid-template-columns:1fr 1.2fr .5fr .8fr;
+}
+`;
+
+
+
+HeroSection.jsx
+
+
+import React from "react";
+import { NavLink } from "react-router-dom";
+import styled from "styled-components";
+import { Button } from "../styles/Button";
+const HeroSection=({name,image})=>{
+    return<Wrapper>
+        <div className="container grid grid-two-column">
+           <div className="section-hero-data">
+            <p className="hero-top-data">This is Me</p>
+            <h1 className="hero-heading">{name}</h1>
+            <p className="hero-para">
+                Hey! I am Soumya Roy . I am a web<br/>
+                developer and coder. Join and register<br/>
+                for awesome courses and learning adventure.
+            </p>
+            <Button className="btn">
+                <NavLink to="/Contacts">Hire Me</NavLink>
+           </Button>
+           </div>
+           
+           <div className="section-hero-image">
+            <picture>
+                <img src={image} alt="" className="hero-img"/>
+            </picture>
+           </div>
+        </div>
+    </Wrapper>
+};
+const Wrapper = styled.section`
+padding:8rem 0;
+.section-hero-data{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+.btn{
+    max-width:16rem;
+}
+.hero-top-data{
+    text-transform:uppercase;
+    font-weight:500;
+    font-size:1.8rem;
+    color:${({theme}) => theme.colors.btn};
+
+}
+.hero-heading{
+    text-transform:uppercase;
+    font-size:5.5rem;
+}
+.hero-para{
+   margin-top:1.2rem;
+   margin-bottom:1.8rem;
+   max-width:150rem; 
+}
+.section-hero-image{
+   display:flex;
+   justify-content:center;
+   align-items:center; 
+}
+.picture{
+    text-align:center;
+}
+.hero-img{
+    max-width:80%;
+}
+.
+`;
+export default HeroSection;
+
+
+Context:
+import React, { useContext ,useReducer} from "react";
+import reducer from "./reducer";
+const AppContext = React.createContext();
+const initialState={
+    name:"",
+    image:"",
+};
+
+
+const AppProvider=({children})=>{
+    const [state,dispatch]=useReducer(reducer,initialState);
+    const updateHomePage=()=>{
+        return dispatch(
+            {
+                type:"Home_Update",
+                payload:{
+                    name:"The Developer",
+                    image:"./newpic.jpg",
+                },
+            }
+        )
+    };
+    const updateAboutPage=()=>{
+        return dispatch(
+            {
+                type:"About_Update",
+                payload:{
+                    name:"Soumya Roy",
+                    image:"./corpo.jpg",
+                },
+            }
+        )
+    };
+    return <AppContext.Provider value={{...state,updateHomePage,updateAboutPage}}>{children}</AppContext.Provider>
+};
+//global custom hook
+const GlobalContext=()=>{
+    return useContext(AppContext);
+};
+export{AppContext, AppProvider,GlobalContext};
+
+
+
+Reducer:
+
+const reducer=(state,action)=>{
+    if(action.type === "Home_Update" ){
+        return {
+            ...state,
+            name:action.payload.name,
+            image:action.payload.image,
+        };
+    }
+    if(action.type === "About_Update" ){
+        return {
+            ...state,
+            name:action.payload.name,
+            image:action.payload.image,
+        };
+    }
+    
+    return state;
+    
+};
+export default reducer;
+
+
+
+
+About:
+
+import React,{useEffect} from "react";
+import HeroSection from "./Components/HeroSection";
+import { GlobalContext } from "./Context";
+const About=()=>{
+  const {updateAboutPage} = GlobalContext();
+  useEffect(()=>updateAboutPage(),[]);
+  
+  return(
+    <HeroSection/>
+  )
+}
+export default About;
+
+
+
+Main.jsx:
+
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.jsx'
+import './index.css'
+import { AppProvider } from './Context.jsx'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <AppProvider>
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+  </AppProvider>
+)
+
+
+
+
+
+
+
+
+
